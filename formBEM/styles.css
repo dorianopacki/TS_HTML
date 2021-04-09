@@ -1,0 +1,69 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* FORM */
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    height: 25vh;
+    width: 25vh;
+
+    border: 1px solid lightgrey;
+}
+
+/* INPUT */
+
+.input {
+    margin-bottom: 30px;
+}
+
+.input--active {}
+
+.input:invalid {
+    border-color: red;
+}
+
+.input:valid {
+    border-color: lightgreen;
+}
+
+/* BUTTON */
+
+.btn {
+    padding: 5px;
+    background-color: white;
+}
+
+.btn--disabled {
+    cursor: not-allowed;
+    background-color: lightgrey;
+}
+
+.btn--loading {
+    cursor: wait;
+}
+
+/* LOADING */
+
+.form--loading > .loader::after {
+    content:" ";
+    position: relative;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0,0,0,50%);
+}
