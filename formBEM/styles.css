@@ -13,6 +13,7 @@ body {
 
 /* FORM */
 .form {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -54,16 +55,18 @@ body {
 
 .btn--loading {
     cursor: wait;
+    background-color: black;
+    color: white;
 }
 
 /* LOADING */
 
-.form--loading > .loader::after {
-    content:" ";
-    position: relative;
+.form--loading > .loader {
+    position: absolute;
     top: 0;
     left: 0;
-    height: 100%;
+    z-index: 2;
+    height:100%;
     width: 100%;
-    background: rgba(0,0,0,50%);
+    background-color: rgba(0,0,0,40%)
 }
