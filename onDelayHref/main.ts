@@ -6,10 +6,15 @@ function directUserToUrl(url, delay) {
 }
 
 function handleChangeUrl(e) {
+  e.preventDefault();
   const href = e.target.getAttribute("data-delayed-href");
   const delay = e.target.getAttribute("data-delayed-duration");
 
-  directUserToUrl(href, delay);
+  if (href && delay) directUserToUrl(href, delay);
+  else
+    throw new Error(
+      "Both data-delayed-href and data-delayed-duration has to be provided"
+    );
 }
 
 const aTags = document.querySelectorAll("a");
