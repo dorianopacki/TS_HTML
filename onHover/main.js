@@ -9,11 +9,16 @@ var createHoverElement = function () {
     zoomElement.style.backgroundRepeat = "no-repeat";
     zoomElement.style.backgroundSize = "200%";
     //dynamicly should be changing depending on x and y axis move over image
-    zoomElement.style.backgroundPosition = "60% 10%";
 };
 var removeHoverElement = function () {
     console.log("Removed element");
     document.body.querySelector(".zoomElement").remove();
+};
+var moveOverHoverElement = function (event) {
+    var x = event.clientX;
+    var y = event.clientY;
+    var elm = document.querySelector(".zoomElement");
+    elm.style.backgroundPosition = x + "% " + y + "%";
 };
 // Listening on events
 hoverElements.forEach(function (element) {
@@ -21,4 +26,7 @@ hoverElements.forEach(function (element) {
 });
 hoverElements.forEach(function (element) {
     return element.addEventListener("mouseout", removeHoverElement);
+});
+hoverElements.forEach(function (element) {
+    return element.addEventListener("mousemove", moveOverHoverElement);
 });

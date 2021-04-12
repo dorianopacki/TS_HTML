@@ -10,12 +10,19 @@ const createHoverElement = () => {
   zoomElement.style.backgroundRepeat = "no-repeat";
   zoomElement.style.backgroundSize = "200%";
   //dynamicly should be changing depending on x and y axis move over image
-  zoomElement.style.backgroundPosition = "60% 10%";
 };
 
 const removeHoverElement = () => {
   console.log("Removed element");
   document.body.querySelector(".zoomElement").remove();
+};
+
+const moveOverHoverElement = (event: any) => {
+  let x = event.clientX;
+  let y = event.clientY;
+
+  const elm = document.querySelector<HTMLElement>(".zoomElement")!;
+  elm.style.backgroundPosition = `${x}% ${y}%`;
 };
 
 // Listening on events
@@ -24,4 +31,8 @@ hoverElements.forEach((element) =>
 );
 hoverElements.forEach((element) =>
   element.addEventListener("mouseout", removeHoverElement)
+);
+
+hoverElements.forEach((element) =>
+  element.addEventListener("mousemove", moveOverHoverElement)
 );
