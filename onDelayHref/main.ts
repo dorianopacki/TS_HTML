@@ -1,4 +1,4 @@
-function directUserToUrl(url, delay) {
+function directUserToUrl(url: string, delay: number) {
   setTimeout(() => {
     window.location.href = url;
   }, delay);
@@ -8,7 +8,9 @@ function directUserToUrl(url, delay) {
 function handleChangeUrl(e) {
   e.preventDefault();
   const href = e.target.getAttribute("data-delayed-href");
+  // if(typeof href !== "string") throw new Error("Link has to be a string");
   const delay = e.target.getAttribute("data-delayed-duration");
+  // if(typeof delay !== "number") throw new Error("Delay has to be a string");
 
   if (href && delay) directUserToUrl(href, delay);
   else
