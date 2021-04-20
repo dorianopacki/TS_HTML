@@ -1,0 +1,11 @@
+.cells {
+  display: flex;
+  flex-wrap: wrap;
+
+  list-style: none;
+}
+
+.cell img {
+  height: 10vh;
+  width: 33vw;
+}

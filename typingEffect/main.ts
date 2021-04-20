@@ -6,6 +6,7 @@ interface ITyping {
   element: string;
   delay: number;
   type: animationType;
+  animateTyping: () => void;
 }
 
 class Typing implements ITyping {
