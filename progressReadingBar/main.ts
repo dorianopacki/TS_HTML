@@ -16,4 +16,6 @@ function manageProgress() {
   divBottom.style.width = `${scrollPositionInPercentage}%`;
 }
 
+// Intersection Observer
+
 window.addEventListener("scroll", manageProgress);

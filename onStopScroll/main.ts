@@ -14,4 +14,6 @@ const manageScrollState = () => {
   }, 500);
 };
 
+// throttle / debounce
+
 window.addEventListener("scroll", manageScrollState);

@@ -45,6 +45,9 @@ class Typing implements ITyping {
     cursor.style.opacity = "0";
 
     interval = setInterval(() => {
+      // this._animateCursor()
+      // this._type()
+
       if (index >= text.length - 1) clearInterval(interval);
       elementToAnimate.textContent = elementToAnimate.textContent + text[index];
       index++;
@@ -60,4 +63,8 @@ class Typing implements ITyping {
   }
 }
 
-const test = new Typing(".animate").animateTyping();
+const test = new Typing(".animate", [
+  "you are best",
+  "you are worst",
+  "you are great",
+]).animateTyping();

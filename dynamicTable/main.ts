@@ -140,7 +140,10 @@ const dynamicTableCreator = (data: Array<dataType>) => {
   const tableCore: HTMLElement = document.createElement("table");
   const headerRow: HTMLTableRowElement = document.createElement("tr");
 
+  // czy w każdym elemencie arraya występują te same klucze
   const headers: Array<string> = Object.keys(data[0]);
+
+  headers.forEach(generateHeaderForColumn);
 
   headers.forEach((header) => {
     const headerElement = document.createElement("th");
@@ -151,6 +154,8 @@ const dynamicTableCreator = (data: Array<dataType>) => {
   });
 
   tableCore.appendChild(headerRow);
+
+  data.forEach(generateTableRow);
 
   data.forEach((element) => {
     const row = document.createElement("tr");

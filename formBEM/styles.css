@@ -31,8 +31,6 @@ body {
     margin-bottom: 30px;
 }
 
-.input--active {}
-
 .input:invalid {
     border-color: red;
 }
