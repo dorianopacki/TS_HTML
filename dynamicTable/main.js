@@ -124,28 +124,54 @@ var data = [
         tags: ["laboris", "ut", "et", "excepteur", "aliqua", "consequat", "labore"]
     },
 ];
-var dynamicTableCreator = function (data) {
-    var tableCore = document.createElement("table");
-    var headerRow = document.createElement("tr");
-    var headers = Object.keys(data[0]);
-    headers.forEach(function (header) {
-        var headerElement = document.createElement("th");
-        var textContent = document.createTextNode(header);
-        headerElement.appendChild(textContent);
-        headerRow.appendChild(headerElement);
-    });
-    tableCore.appendChild(headerRow);
-    data.forEach(function (element) {
-        var row = document.createElement("tr");
-        Object.values(element).forEach(function (el) {
-            var cell = document.createElement("td");
-            var textNode = document.createTextNode(el);
-            cell.appendChild(textNode);
-            row.appendChild(cell);
-        });
-        tableCore.appendChild(row);
-    });
-    var container = document.querySelector(".dynamic-table");
-    container.appendChild(tableCore);
+var areAllHeadersTheSame = function (headers) {
+    var sample = Object.keys(headers[0]);
+    if (headers.some(function (header) { return JSON.stringify(header) == JSON.stringify(sample); }))
+        return false;
+    else
+        return true;
 };
-dynamicTableCreator(data);
+var headerConstructor = function (data, coreElement) {
+    var headers = data.map(function (element) { return Object.keys(element); });
+    var areAllHeadersNamesTheSame = areAllHeadersTheSame(headers);
+    if (areAllHeadersNamesTheSame) {
+        var sampleHeader = headers[0];
+        sampleHeader.forEach(function (header) {
+            var headerElement = document.createElement("th");
+            var headerTextContent = document.createTextNode(header);
+            headerElement.appendChild(headerTextContent);
+            coreElement.appendChild(headerElement);
+        });
+    }
+    else {
+        //do something else
+    }
+};
+var bodyConstructor = function (data, parentElement) {
+    var bodyElements = data.map(function (value) { return Object.values(value); });
+    bodyElements.forEach(function (element) {
+        var tableRow = document.createElement("tr");
+        element.forEach(function (drawer) {
+            var drawerCell = document.createElement("td");
+            var drawerCellContent = document.createTextNode(drawer);
+            drawerCell.appendChild(drawerCellContent);
+            tableRow.appendChild(drawerCell);
+        });
+        parentElement.appendChild(tableRow);
+    });
+};
+var tableConstructor = function (tableHeader, tableBody, tableCoreElement, placingElement) {
+    var destination = document.querySelector(placingElement);
+    tableCoreElement.appendChild(tableHeader);
+    tableCoreElement.appendChild(tableBody);
+    destination.appendChild(tableCoreElement);
+};
+var dynamicTableGenerator = function (placingElement, data) {
+    var tableCoreElement = document.createElement("table");
+    var tableHeaderElement = document.createElement("thead");
+    var tableBodyElement = document.createElement("tbody");
+    headerConstructor(data, tableHeaderElement);
+    bodyConstructor(data, tableBodyElement);
+    tableConstructor(tableHeaderElement, tableBodyElement, tableCoreElement, placingElement);
+};
+dynamicTableGenerator("body", data);

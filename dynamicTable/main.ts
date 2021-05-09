@@ -136,40 +136,77 @@ type dataType = {
   tags: Array<string>;
 };
 
-const dynamicTableCreator = (data: Array<dataType>) => {
-  const tableCore: HTMLElement = document.createElement("table");
-  const headerRow: HTMLTableRowElement = document.createElement("tr");
-
-  // czy w każdym elemencie arraya występują te same klucze
-  const headers: Array<string> = Object.keys(data[0]);
-
-  headers.forEach(generateHeaderForColumn);
-
-  headers.forEach((header) => {
-    const headerElement = document.createElement("th");
-    const textContent = document.createTextNode(header);
-
-    headerElement.appendChild(textContent);
-    headerRow.appendChild(headerElement);
-  });
-
-  tableCore.appendChild(headerRow);
-
-  data.forEach(generateTableRow);
-
-  data.forEach((element) => {
-    const row = document.createElement("tr");
-    (<any>Object).values(element).forEach((el: string) => {
-      const cell = document.createElement("td");
-      const textNode = document.createTextNode(el);
-      cell.appendChild(textNode);
-      row.appendChild(cell);
-    });
-    tableCore.appendChild(row);
-  });
-
-  const container = document.querySelector<HTMLElement>(".dynamic-table");
-  container.appendChild(tableCore);
+const areAllHeadersTheSame = (headers: Array<Array<string>>): boolean => {
+  const sample = Object.keys(headers[0]);
+  if (
+    headers.some((header) => JSON.stringify(header) == JSON.stringify(sample))
+  )
+    return false;
+  else return true;
 };
 
-dynamicTableCreator(data);
+const headerConstructor = (data: Array<dataType>, coreElement: HTMLElement) => {
+  const headers = data.map((element) => Object.keys(element));
+  const areAllHeadersNamesTheSame = areAllHeadersTheSame(headers);
+
+  if (areAllHeadersNamesTheSame) {
+    const sampleHeader = headers[0];
+    sampleHeader.forEach((header) => {
+      const headerElement = document.createElement("th");
+      const headerTextContent = document.createTextNode(header);
+      headerElement.appendChild(headerTextContent);
+      coreElement.appendChild(headerElement);
+    });
+  } else {
+    //do something else
+  }
+};
+
+const bodyConstructor = (data: Array<dataType>, parentElement: HTMLElement) => {
+  const bodyElements = data.map((value) => (<any>Object).values(value));
+
+  bodyElements.forEach((element) => {
+    const tableRow = document.createElement("tr");
+    element.forEach((drawer: string) => {
+      const drawerCell = document.createElement("td");
+      const drawerCellContent = document.createTextNode(drawer);
+      drawerCell.appendChild(drawerCellContent);
+      tableRow.appendChild(drawerCell);
+    });
+    parentElement.appendChild(tableRow);
+  });
+};
+
+const tableConstructor = (
+  tableHeader: HTMLElement,
+  tableBody: HTMLElement,
+  tableCoreElement: HTMLElement,
+  placingElement: string
+) => {
+  const destination = document.querySelector(placingElement);
+  tableCoreElement.appendChild(tableHeader);
+  tableCoreElement.appendChild(tableBody);
+  destination.appendChild(tableCoreElement);
+};
+
+const dynamicTableGenerator = (
+  placingElement: string,
+  data: Array<dataType>
+) => {
+  const tableCoreElement = document.createElement("table");
+  const tableHeaderElement = document.createElement("thead");
+  const tableBodyElement = document.createElement("tbody");
+
+  headerConstructor(data, tableHeaderElement);
+
+  bodyConstructor(data, tableBodyElement);
+
+  tableConstructor(
+    tableHeaderElement,
+    tableBodyElement,
+    tableCoreElement,
+    placingElement
+  );
+};
+
+dynamicTableGenerator("body", data);
