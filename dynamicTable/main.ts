@@ -165,6 +165,8 @@ const headerConstructor = (data: Array<dataType>, coreElement: HTMLElement) => {
 const bodyConstructor = (data: Array<dataType>, parentElement: HTMLElement) => {
   const bodyElements = data.map((value) => (<any>Object).values(value));
 
+  if (!bodyElements) return;
+
   bodyElements.forEach((element) => {
     const tableRow = document.createElement("tr");
     element.forEach((drawer: string) => {

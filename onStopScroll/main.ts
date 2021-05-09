@@ -1,5 +1,17 @@
 let timer: number;
 
+const throttle = (fn: Function, delay: number) => {
+  let last = 0;
+  return (...args: Array<any>) => {
+    const now = new Date().getTime();
+    if (now - last < delay) {
+      return;
+    }
+    last = now;
+    return fn(...args);
+  };
+};
+
 const manageScrollState = () => {
   if (document.body.classList.contains("not-scrolling")) {
     document.body.classList.remove("not-scrolling");
@@ -11,9 +23,7 @@ const manageScrollState = () => {
   timer = setTimeout(() => {
     document.body.classList.remove("scrolling");
     document.body.classList.add("not-scrolling");
-  }, 500);
+  }, 1100);
 };
 
-// throttle / debounce
-
-window.addEventListener("scroll", manageScrollState);
+window.addEventListener("scroll", throttle(manageScrollState, 1000));
