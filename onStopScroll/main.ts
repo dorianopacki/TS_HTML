@@ -1,6 +1,6 @@
 let timer: number;
 
-const throttle = (fn: Function, delay: number) => {
+const throttle = (fn: (...args: Array<any>) => void, delay: number) => {
   let last = 0;
   return (...args: Array<any>) => {
     const now = new Date().getTime();
