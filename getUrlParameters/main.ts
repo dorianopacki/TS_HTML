@@ -1,25 +1,19 @@
-function getUrlParameters(url) {
-  const searchParams = new URLSearchParams(url);
+const getUrlParameters = (url: string) => {
+  const queryString = url.split("?")[1];
 
-  const keys = [...searchParams.keys()];
+  const searchParameters = new URLSearchParams(queryString);
 
-  ??
-  const result = keys.reduce((acc, av) => {
-    acc[av] = searchParams.get(av);
-    return acc;
-  }, {});
+  const parametersEntries = Array.from(searchParameters.entries());
 
-  return result;
-}
+  const separatedParameters = parametersEntries.reduce(
+    (acc: any, curr: any) => {
+      acc[curr[0]] = curr[1];
+      return acc;
+    },
+    {}
+  );
 
-const a = getUrlParameters("page=10&id=1");
+  return separatedParameters;
+};
 
-const params = {
-  page:10,
-  id:1,
-  entries:[10,100]
-}
-
-
-// array[0]=1&array[1]=2....
-// array=1&array=2
+const a = getUrlParameters("url.com/post?page=10&id=1");

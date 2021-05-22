@@ -1,15 +1,11 @@
-var __spreadArray = (this && this.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
-};
-function getUrlParameters(url) {
-    var searchParams = new URLSearchParams(url);
-    var keys = __spreadArray([], searchParams.keys());
-    var result = keys.reduce(function (acc, av) {
-        acc[av] = searchParams.get(av);
+var getUrlParameters = function (url) {
+    var queryString = url.split("?")[1];
+    var searchParameters = new URLSearchParams(queryString);
+    var parametersEntries = Array.from(searchParameters.entries());
+    var separatedParameters = parametersEntries.reduce(function (acc, curr) {
+        acc[curr[0]] = curr[1];
         return acc;
     }, {});
-    return result;
-}
-var a = getUrlParameters("page=10&id=1");
+    return separatedParameters;
+};
+var a = getUrlParameters("url.com/post?page=10&id=1");
