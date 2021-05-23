@@ -1,21 +1,21 @@
-const divTop = document.createElement("div");
-const divBottom = document.createElement("div");
+class ProgressReadingBar {
+  element: string;
 
-divTop.classList.add("progress", "progress__top");
-divBottom.classList.add("progress", "progress__bottom");
+  constructor(element: string) {
+    this.element = element;
+  }
 
-document.body.appendChild(divTop);
-document.body.appendChild(divBottom);
+  createProgressBar(): void {
+    const elementToObserve = document.querySelector(`.${this.element}`);
 
-function manageProgress() {
-  const scrollPositionInPercentage = (
-    (window.scrollY / window.innerHeight) *
-    100
-  ).toFixed();
-  divTop.style.width = `${scrollPositionInPercentage}%`;
-  divBottom.style.width = `${scrollPositionInPercentage}%`;
+    const observer = new IntersectionObserver((entries) => {
+      console.log(entries[0].target);
+    });
+
+    observer.observe(elementToObserve);
+  }
 }
 
-// Intersection Observer
+const progressbar = new ProgressReadingBar("with-progress-bar");
 
-window.addEventListener("scroll", manageProgress);
+progressbar.createProgressBar();

@@ -25,3 +25,13 @@ position: fixed;
 top: 100vh;
 left: 0;
 }
+
+.with-progress-bar {
+    height: 100vh;
+    background-color: green;
+}
+
+.second-container {
+    height: 100vh;
+    background-color:red;
+}
