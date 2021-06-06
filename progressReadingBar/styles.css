@@ -22,7 +22,7 @@ left: 0;
 
 .progress__top{
 position: fixed;
-top: 100vh;
+top: 0;
 left: 0;
 }
 

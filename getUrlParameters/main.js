@@ -1,11 +1,15 @@
-var getUrlParameters = function (url) {
-    var queryString = url.split("?")[1];
-    var searchParameters = new URLSearchParams(queryString);
-    var parametersEntries = Array.from(searchParameters.entries());
-    var separatedParameters = parametersEntries.reduce(function (acc, curr) {
-        acc[curr[0]] = curr[1];
-        return acc;
+const getUrlParameters = (url) => {
+    const isUrlValid = new URL(url);
+    const queryString = url.split("?")[1];
+    const searchParameters = new URLSearchParams(queryString);
+    const parametersEntries = [...searchParameters.entries()];
+    const separatedParameters = parametersEntries.reduce((params, [key, value]) => {
+        params[key] = value;
+        return params;
     }, {});
     return separatedParameters;
 };
-var a = getUrlParameters("url.com/post?page=10&id=1");
+const a = getUrlParameters("https://reqres.in/api/users?page=2");
+console.log(a);
+//figure out how to get work out arrays in get
+// check if url is proper

@@ -1,35 +1,56 @@
-export class ProgressReadingBarObserver {
-  htmlElements: HTMLElement[]; 
+class ProgressReadingBarObserver {
+  private isElementVisible = false;
+  private eventId = null;
 
-  constructor(...htmlElements: HTMLElement[]) {
-    this.htmlElements = htmlElements;
+  private createProgressBar() {
+    const progressBar = document.createElement("div");
+    progressBar.classList.add("progress__top");
+    progressBar.classList.add("progress");
+    document.body.appendChild(progressBar);
   }
 
-  initProgressBar() {
+  private calculateBarLength(data) {
+    const winScroll =
+      document.documentElement.scrollTop -
+      data.target.offsetTop +
+      document.documentElement.clientHeight;
+    const height = data.boundingClientRect.height;
+    const scrolled = (((winScroll / height) * 100) / 2).toFixed();
+
+    return scrolled;
+  }
+
+  private manageProgressBar(entry) {
+    this.isElementVisible = entry.isIntersecting;
+
+    //what if element is visible
+    //what if its not
+  }
+
+  private setIntersectionObserver() {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        entry.target.classList.add("with-progress-reading-bar");
-        const progressBarWrapper = document.createElement("div");
-        const progressBarInside = document.createElement("div");
-    
-        function scroll() {
-          const winScroll = document.documentElement.scrollTop - entry.target.offsetTop + document.documentElement.clientHeight;
-          const height = entry.boundingClientRect.height;
-          const scrolled = (winScroll / height) * 100;
-          progressBarInside.style.width = scrolled + "%";
-        }
-  
-        window.addEventListener("scroll", scroll);
-    
-        entry.target.insertAdjacentElement("afterbegin", progressBarWrapper);
-        progressBarWrapper.classList.toggle("progress-bar-wrapper");
-        progressBarWrapper.appendChild(progressBarInside);
-        progressBarInside.classList.toggle("progress-bar-inside");
-
-        observer.unobserve(entry.target);
+        this.manageProgressBar(entry);
       });
     });
- 
-  this.htmlElements.forEach((element) => observer.observe(element));
+
+    const elementToObserve = document.querySelector(
+      ".with-progress-bar"
+    ) as HTMLElement;
+
+    observer.observe(elementToObserve);
+  }
+
+  init() {
+    this.createProgressBar();
+    this.setIntersectionObserver();
   }
 }
+
+const c = new ProgressReadingBarObserver();
+c.init();
+
+//is the element visible atm?
+//if so set event listener on scroll with throttling
+//as long as it is visible keep listing for scroll and update bar length in %
+// if element gets out of view than stop listening
