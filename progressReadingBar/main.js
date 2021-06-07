@@ -1,7 +1,8 @@
 class ProgressReadingBarObserver {
     constructor() {
         this.isElementVisible = false;
-        this.eventId = null;
+        this.isListening = false;
+        this.elementToObserve = document.querySelector(".with-progress-bar");
     }
     createProgressBar() {
         const progressBar = document.createElement("div");
@@ -9,18 +10,27 @@ class ProgressReadingBarObserver {
         progressBar.classList.add("progress");
         document.body.appendChild(progressBar);
     }
-    calculateBarLength(data) {
-        const winScroll = document.documentElement.scrollTop -
-            data.target.offsetTop +
-            document.documentElement.clientHeight;
-        const height = data.boundingClientRect.height;
-        const scrolled = (((winScroll / height) * 100) / 2).toFixed();
-        return scrolled;
+    calculateBarLength() {
+        // const winScroll =
+        //   document.documentElement.scrollTop -
+        //   data.target.offsetTop +
+        //   document.documentElement.clientHeight;
+        // const height = data.boundingClientRect.height;
+        // const scrolled = (((winScroll / height) * 100) / 2).toFixed();
+        // return scrolled;
     }
     manageProgressBar(entry) {
         this.isElementVisible = entry.isIntersecting;
-        //what if element is visible
-        //what if its not
+        if (!this.isElementVisible) {
+            if (this.isListening) {
+                window.removeEventListener("scroll", this.calculateBarLength);
+                this.isListening = false;
+            }
+        }
+        if (this.isElementVisible) {
+            window.addEventListener("scroll", this.calculateBarLength);
+            this.isListening = true;
+        }
     }
     setIntersectionObserver() {
         const observer = new IntersectionObserver((entries) => {
@@ -28,8 +38,7 @@ class ProgressReadingBarObserver {
                 this.manageProgressBar(entry);
             });
         });
-        const elementToObserve = document.querySelector(".with-progress-bar");
-        observer.observe(elementToObserve);
+        observer.observe(this.elementToObserve);
     }
     init() {
         this.createProgressBar();

@@ -1,6 +1,9 @@
 class ProgressReadingBarObserver {
   private isElementVisible = false;
-  private eventId = null;
+  private isListening = false;
+  private elementToObserve = document.querySelector(
+    ".with-progress-bar"
+  ) as HTMLElement;
 
   private createProgressBar() {
     const progressBar = document.createElement("div");
@@ -9,22 +12,30 @@ class ProgressReadingBarObserver {
     document.body.appendChild(progressBar);
   }
 
-  private calculateBarLength(data) {
-    const winScroll =
-      document.documentElement.scrollTop -
-      data.target.offsetTop +
-      document.documentElement.clientHeight;
-    const height = data.boundingClientRect.height;
-    const scrolled = (((winScroll / height) * 100) / 2).toFixed();
-
-    return scrolled;
+  private calculateBarLength() {
+    // const winScroll =
+    //   document.documentElement.scrollTop -
+    //   data.target.offsetTop +
+    //   document.documentElement.clientHeight;
+    // const height = data.boundingClientRect.height;
+    // const scrolled = (((winScroll / height) * 100) / 2).toFixed();
+    // return scrolled;
   }
 
   private manageProgressBar(entry) {
     this.isElementVisible = entry.isIntersecting;
 
-    //what if element is visible
-    //what if its not
+    if (!this.isElementVisible) {
+      if (this.isListening) {
+        window.removeEventListener("scroll", this.calculateBarLength);
+        this.isListening = false;
+      }
+    }
+
+    if (this.isElementVisible) {
+      window.addEventListener("scroll", this.calculateBarLength);
+      this.isListening = true;
+    }
   }
 
   private setIntersectionObserver() {
@@ -34,11 +45,7 @@ class ProgressReadingBarObserver {
       });
     });
 
-    const elementToObserve = document.querySelector(
-      ".with-progress-bar"
-    ) as HTMLElement;
-
-    observer.observe(elementToObserve);
+    observer.observe(this.elementToObserve);
   }
 
   init() {
