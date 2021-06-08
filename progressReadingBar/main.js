@@ -1,8 +1,7 @@
 class ProgressReadingBarObserver {
-    constructor() {
-        this.isElementVisible = false;
-        this.isListening = false;
+    constructor(progressObserverOptions) {
         this.elementToObserve = document.querySelector(".with-progress-bar");
+        this.progressObserverOptions;
     }
     createProgressBar() {
         const progressBar = document.createElement("div");
@@ -10,44 +9,28 @@ class ProgressReadingBarObserver {
         progressBar.classList.add("progress");
         document.body.appendChild(progressBar);
     }
-    calculateBarLength() {
-        // const winScroll =
-        //   document.documentElement.scrollTop -
-        //   data.target.offsetTop +
-        //   document.documentElement.clientHeight;
-        // const height = data.boundingClientRect.height;
-        // const scrolled = (((winScroll / height) * 100) / 2).toFixed();
-        // return scrolled;
-    }
-    manageProgressBar(entry) {
-        this.isElementVisible = entry.isIntersecting;
-        if (!this.isElementVisible) {
-            if (this.isListening) {
-                window.removeEventListener("scroll", this.calculateBarLength);
-                this.isListening = false;
-            }
-        }
-        if (this.isElementVisible) {
-            window.addEventListener("scroll", this.calculateBarLength);
-            this.isListening = true;
-        }
+    changeProgressBarSize(ratio) {
+        const progressBarElement = document.querySelector(".progress");
+        const percentageOfScrolledElement = ratio.toFixed(2) * 100;
+        progressBarElement.style.width = `${percentageOfScrolledElement}%`;
+        console.log(percentageOfScrolledElement);
     }
     setIntersectionObserver() {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
-                this.manageProgressBar(entry);
+                const intersectionRatio = entry.intersectionRatio;
+                this.changeProgressBarSize(intersectionRatio);
             });
-        });
+        }, options);
         observer.observe(this.elementToObserve);
     }
-    init() {
+    initializeProgressBar() {
         this.createProgressBar();
         this.setIntersectionObserver();
     }
 }
-const c = new ProgressReadingBarObserver();
-c.init();
-//is the element visible atm?
-//if so set event listener on scroll with throttling
-//as long as it is visible keep listing for scroll and update bar length in %
-// if element gets out of view than stop listening
+const options = {
+    threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
+};
+const c = new ProgressReadingBarObserver(options);
+c.initializeProgressBar();
