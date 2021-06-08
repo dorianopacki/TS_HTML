@@ -16,8 +16,8 @@ class ProgressReadingBarObserver {
         console.log(percentageOfScrolledElement);
     }
     setIntersectionObserver() {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
+        const observer = new IntersectionObserver((entiresOnObservedElement) => {
+            entiresOnObservedElement.forEach((entry) => {
                 const intersectionRatio = entry.intersectionRatio;
                 this.changeProgressBarSize(intersectionRatio);
             });
