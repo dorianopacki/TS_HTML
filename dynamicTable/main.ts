@@ -212,3 +212,16 @@ const dynamicTableGenerator = (
 };
 
 dynamicTableGenerator("body", data);
+
+//functions to validate and sort data types
+const orderObjectByKey = (data: Array<any>) => {
+  const dataCopy = [...data];
+  const ordered = Object.keys(dataCopy)
+    .sort()
+    .reduce((obj, key) => {
+      obj[key] = dataCopy[key];
+      return obj;
+    }, {});
+
+  return ordered;
+};

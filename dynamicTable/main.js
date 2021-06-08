@@ -1,4 +1,4 @@
-var data = [
+const data = [
     {
         _id: "5e9df382fc302216f08b46b1",
         name: "Ivy Mitchell",
@@ -7,7 +7,7 @@ var data = [
         company: "TALAE",
         email: "ivymitchell@talae.com",
         phone: "+1 (838) 597-2008",
-        tags: ["cupidatat", "et", "ad", "incididunt", "velit", "sint", "non"]
+        tags: ["cupidatat", "et", "ad", "incididunt", "velit", "sint", "non"],
     },
     {
         _id: "5e9df38220c8ca67ea7903ae",
@@ -25,7 +25,7 @@ var data = [
             "reprehenderit",
             "nulla",
             "aute",
-        ]
+        ],
     },
     {
         _id: "5e9df38249740035c46a0e8e",
@@ -35,7 +35,7 @@ var data = [
         company: "MARKETOID",
         email: "buckleyharper@marketoid.com",
         phone: "+1 (931) 478-3483",
-        tags: ["Lorem", "commodo", "quis", "eu", "labore", "exercitation", "in"]
+        tags: ["Lorem", "commodo", "quis", "eu", "labore", "exercitation", "in"],
     },
     {
         _id: "5e9df382b76d365bb162751c",
@@ -53,7 +53,7 @@ var data = [
             "ipsum",
             "minim",
             "proident",
-        ]
+        ],
     },
     {
         _id: "5e9df3820b489f341a421aa7",
@@ -63,7 +63,7 @@ var data = [
         company: "OVERFORK",
         email: "esperanzagates@overfork.com",
         phone: "+1 (928) 540-3318",
-        tags: ["sit", "qui", "labore", "ea", "veniam", "non", "dolor"]
+        tags: ["sit", "qui", "labore", "ea", "veniam", "non", "dolor"],
     },
     {
         _id: "5e9df3826ce9a9c66e5fbece",
@@ -81,7 +81,7 @@ var data = [
             "anim",
             "tempor",
             "occaecat",
-        ]
+        ],
     },
     {
         _id: "5e9df382ec22953b82005d4b",
@@ -91,7 +91,7 @@ var data = [
         company: "ZYPLE",
         email: "beverleykramer@zyple.com",
         phone: "+1 (873) 440-2676",
-        tags: ["aliquip", "ipsum", "sint", "enim", "adipisicing", "et", "nostrud"]
+        tags: ["aliquip", "ipsum", "sint", "enim", "adipisicing", "et", "nostrud"],
     },
     {
         _id: "5e9df38208f097558c905bff",
@@ -101,7 +101,7 @@ var data = [
         company: "RUBADUB",
         email: "wyattpace@rubadub.com",
         phone: "+1 (932) 592-2306",
-        tags: ["minim", "elit", "magna", "aliquip", "qui", "voluptate", "aute"]
+        tags: ["minim", "elit", "magna", "aliquip", "qui", "voluptate", "aute"],
     },
     {
         _id: "5e9df3820a02091cc1a39663",
@@ -111,7 +111,7 @@ var data = [
         company: "BIOSPAN",
         email: "hoodbrowning@biospan.com",
         phone: "+1 (835) 565-2597",
-        tags: ["voluptate", "dolore", "qui", "sunt", "ea", "aute", "veniam"]
+        tags: ["voluptate", "dolore", "qui", "sunt", "ea", "aute", "veniam"],
     },
     {
         _id: "5e9df3823dc9e1a5ba14a100",
@@ -121,24 +121,24 @@ var data = [
         company: "ISOLOGICA",
         email: "jaimealvarez@isologica.com",
         phone: "+1 (974) 498-3471",
-        tags: ["laboris", "ut", "et", "excepteur", "aliqua", "consequat", "labore"]
+        tags: ["laboris", "ut", "et", "excepteur", "aliqua", "consequat", "labore"],
     },
 ];
-var areAllHeadersTheSame = function (headers) {
-    var sample = Object.keys(headers[0]);
-    if (headers.some(function (header) { return JSON.stringify(header) == JSON.stringify(sample); }))
+const areAllHeadersTheSame = (headers) => {
+    const sample = Object.keys(headers[0]);
+    if (headers.some((header) => JSON.stringify(header) == JSON.stringify(sample)))
         return false;
     else
         return true;
 };
-var headerConstructor = function (data, coreElement) {
-    var headers = data.map(function (element) { return Object.keys(element); });
-    var areAllHeadersNamesTheSame = areAllHeadersTheSame(headers);
+const headerConstructor = (data, coreElement) => {
+    const headers = data.map((element) => Object.keys(element));
+    const areAllHeadersNamesTheSame = areAllHeadersTheSame(headers);
     if (areAllHeadersNamesTheSame) {
-        var sampleHeader = headers[0];
-        sampleHeader.forEach(function (header) {
-            var headerElement = document.createElement("th");
-            var headerTextContent = document.createTextNode(header);
+        const sampleHeader = headers[0];
+        sampleHeader.forEach((header) => {
+            const headerElement = document.createElement("th");
+            const headerTextContent = document.createTextNode(header);
             headerElement.appendChild(headerTextContent);
             coreElement.appendChild(headerElement);
         });
@@ -147,31 +147,44 @@ var headerConstructor = function (data, coreElement) {
         //do something else
     }
 };
-var bodyConstructor = function (data, parentElement) {
-    var bodyElements = data.map(function (value) { return Object.values(value); });
-    bodyElements.forEach(function (element) {
-        var tableRow = document.createElement("tr");
-        element.forEach(function (drawer) {
-            var drawerCell = document.createElement("td");
-            var drawerCellContent = document.createTextNode(drawer);
+const bodyConstructor = (data, parentElement) => {
+    const bodyElements = data.map((value) => Object.values(value));
+    if (!bodyElements)
+        return;
+    bodyElements.forEach((element) => {
+        const tableRow = document.createElement("tr");
+        element.forEach((drawer) => {
+            const drawerCell = document.createElement("td");
+            const drawerCellContent = document.createTextNode(drawer);
             drawerCell.appendChild(drawerCellContent);
             tableRow.appendChild(drawerCell);
         });
         parentElement.appendChild(tableRow);
     });
 };
-var tableConstructor = function (tableHeader, tableBody, tableCoreElement, placingElement) {
-    var destination = document.querySelector(placingElement);
+const tableConstructor = (tableHeader, tableBody, tableCoreElement, placingElement) => {
+    const destination = document.querySelector(placingElement);
     tableCoreElement.appendChild(tableHeader);
     tableCoreElement.appendChild(tableBody);
     destination.appendChild(tableCoreElement);
 };
-var dynamicTableGenerator = function (placingElement, data) {
-    var tableCoreElement = document.createElement("table");
-    var tableHeaderElement = document.createElement("thead");
-    var tableBodyElement = document.createElement("tbody");
+const dynamicTableGenerator = (placingElement, data) => {
+    const tableCoreElement = document.createElement("table");
+    const tableHeaderElement = document.createElement("thead");
+    const tableBodyElement = document.createElement("tbody");
     headerConstructor(data, tableHeaderElement);
     bodyConstructor(data, tableBodyElement);
     tableConstructor(tableHeaderElement, tableBodyElement, tableCoreElement, placingElement);
 };
 dynamicTableGenerator("body", data);
+//functions to validate and sort data types
+const orderObjectByKey = (data) => {
+    const dataCopy = [...data];
+    const ordered = Object.keys(dataCopy)
+        .sort()
+        .reduce((obj, key) => {
+        obj[key] = dataCopy[key];
+        return obj;
+    }, {});
+    return ordered;
+};

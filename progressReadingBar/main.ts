@@ -1,9 +1,11 @@
 class ProgressReadingBarObserver {
-  private elementToObserve = document.querySelector(".with-progress-bar") as HTMLElement;
-  private progressObserverOptions: {threshold: Array<number>}
+  private elementToObserve = document.querySelector(
+    ".with-progress-bar"
+  ) as HTMLElement;
+  private progressObserverOptions: { threshold: Array<number> };
 
-  constructor(progressObserverOptions: {threshold: Array<number>}) {
-    this.progressObserverOptions
+  constructor(progressObserverOptions: { threshold: Array<number> }) {
+    this.progressObserverOptions;
   }
 
   private createProgressBar() {
@@ -14,20 +16,19 @@ class ProgressReadingBarObserver {
   }
 
   private changeProgressBarSize(ratio) {
-    const progressBarElement = document.querySelector(".progress") as HTMLElement
-    const percentageOfScrolledElement = ratio.toFixed(2) * 100
+    const progressBarElement = document.querySelector(
+      ".progress"
+    ) as HTMLElement;
+    const percentageOfScrolledElement = ratio.toFixed(2) * 100;
 
-    
-    progressBarElement.style.width = `${percentageOfScrolledElement}%`
-
-    console.log(percentageOfScrolledElement )
+    progressBarElement.style.width = `${percentageOfScrolledElement}%`;
   }
 
   private setIntersectionObserver() {
     const observer = new IntersectionObserver((entiresOnObservedElement) => {
       entiresOnObservedElement.forEach((entry) => {
-        const intersectionRatio = entry.intersectionRatio
-        this.changeProgressBarSize(intersectionRatio)
+        const intersectionRatio = entry.intersectionRatio;
+        this.changeProgressBarSize(intersectionRatio);
       });
     }, options);
 
@@ -41,10 +42,8 @@ class ProgressReadingBarObserver {
 }
 
 const options = {
-  threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
-}
+  threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
+};
 
 const c = new ProgressReadingBarObserver(options);
 c.initializeProgressBar();
-
-
