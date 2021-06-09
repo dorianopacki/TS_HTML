@@ -136,10 +136,19 @@ type dataType = {
   tags: Array<string>;
 };
 
+const sortObjectKeys = (dataToSort: Array<{}>) => {
+  const dataCopy = [...data]
+  const headers = dataCopy.map(element => Object.keys(element))
+  for(let header of headers) header.sort()
+
+  return headers
+}
+
 const areAllHeadersTheSame = (headers: Array<Array<string>>): boolean => {
-  const sample = Object.keys(headers[0]);
+  const sortedHeaders = sortObjectKeys(headers)
+  const sample = Object.keys(sortedHeaders[0]);
   if (
-    headers.some((header) => JSON.stringify(header) == JSON.stringify(sample))
+    sortedHeaders.some((header) => JSON.stringify(header) == JSON.stringify(sample))
   )
     return false;
   else return true;
@@ -212,16 +221,3 @@ const dynamicTableGenerator = (
 };
 
 dynamicTableGenerator("body", data);
-
-//functions to validate and sort data types
-const orderObjectByKey = (data: Array<any>) => {
-  const dataCopy = [...data];
-  const ordered = Object.keys(dataCopy)
-    .sort()
-    .reduce((obj, key) => {
-      obj[key] = dataCopy[key];
-      return obj;
-    }, {});
-
-  return ordered;
-};

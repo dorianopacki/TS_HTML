@@ -124,9 +124,17 @@ const data = [
         tags: ["laboris", "ut", "et", "excepteur", "aliqua", "consequat", "labore"],
     },
 ];
+const sortObjectKeys = (dataToSort) => {
+    const dataCopy = [...data];
+    const headers = dataCopy.map(element => Object.keys(element));
+    for (let header of headers)
+        header.sort();
+    return headers;
+};
 const areAllHeadersTheSame = (headers) => {
-    const sample = Object.keys(headers[0]);
-    if (headers.some((header) => JSON.stringify(header) == JSON.stringify(sample)))
+    const sortedHeaders = sortObjectKeys(headers);
+    const sample = Object.keys(sortedHeaders[0]);
+    if (sortedHeaders.some((header) => JSON.stringify(header) == JSON.stringify(sample)))
         return false;
     else
         return true;
@@ -177,14 +185,3 @@ const dynamicTableGenerator = (placingElement, data) => {
     tableConstructor(tableHeaderElement, tableBodyElement, tableCoreElement, placingElement);
 };
 dynamicTableGenerator("body", data);
-//functions to validate and sort data types
-const orderObjectByKey = (data) => {
-    const dataCopy = [...data];
-    const ordered = Object.keys(dataCopy)
-        .sort()
-        .reduce((obj, key) => {
-        obj[key] = dataCopy[key];
-        return obj;
-    }, {});
-    return ordered;
-};
