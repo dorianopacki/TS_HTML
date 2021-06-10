@@ -1,12 +1,13 @@
 const debounce = (callback: any, delay: number) => {
   let timer: number;
-  return function() {
+  return function(...args) {
     clearTimeout(timer)
     timer = setTimeout(() => {
-      callback()
+      callback(...args)
     }, delay)
   }
 }
+
 class ProgressReadingBarObserver {
   private elementToObserve = document.querySelector(
     ".with-progress-bar"
