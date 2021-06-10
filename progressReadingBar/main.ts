@@ -1,3 +1,12 @@
+const debounce = (callback: any, delay: number) => {
+  let timer: number;
+  return function() {
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+      callback()
+    }, delay)
+  }
+}
 class ProgressReadingBarObserver {
   private elementToObserve = document.querySelector(
     ".with-progress-bar"
@@ -28,7 +37,7 @@ class ProgressReadingBarObserver {
     const observer = new IntersectionObserver((entiresOnObservedElement) => {
       entiresOnObservedElement.forEach((entry) => {
         const intersectionRatio = entry.intersectionRatio;
-        this.changeProgressBarSize(intersectionRatio);
+        debounce(this.changeProgressBarSize(intersectionRatio), 500)
       });
     }, options);
 
